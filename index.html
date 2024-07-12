@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Pizza</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<style>
+    body {
+    background-color: chocolate;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.pizzas {
+    /* box-model */
+    border: 1px solid snow
+    padding: 1em;
+    margin: 1em;
+    /* margin-left: 0em; */
+    margin-bottom: 0.5em;
+    border-radius: 0.5em;
+
+    /* use display: inline-block*/
+
+    /* 
+    /*width: 20em;
+    display: inline-block;
+    min-height: 30em;*/
+}
+
+.small_pizza {
+    background-color: chocolate; 
+    flex: 1; 
+}
+
+.Shopping_cart {
+    background-color: burlywood;
+    margin: 5em;
+    padding: 1em;
+    border-radius: 1em;
+    text-align: center;
+}
+
+.medium_pizza {
+    background-color: bisque;
+    flex: 1;
+}
+    
+
+.large_pizza {
+    background-color: powderblue;
+    flex: 1;
+}
+
+.contact_us {
+    background-color: sandybrown;
+}
+
+.special {
+    background-color: azure;
+    color: black;
+    margin: 0.5em;
+}
+
+@media (min-width:760px) {
+    /*apply this css if the page is wider than 760px*/
+    body{
+        background-color: silver;
+    }
+
+}
+
+
+
+
+@media (min-width:960px) {
+    /*apply this css if the page is wider than 960px*/
+    body{
+        background-color: white;
+    }
+
+    .pizzas {
+        display: flex;
+    }
+
+}
+</style>
+<body x-data="{ small: 0, medium: 0, large: 0, checkout: false }">
+    <header>
+        <h1>Perfect Pizza</h1>
+        <h2>Pizza Orders</h2>
+    </header>
+
+    <section class="shopping-cart" x-show="small > 0 || medium > 0 || large > 0">
+        <div class="Shopping_cart">
+        <div class="Shopping cart">
+        <h1>Shopping Cart</h1>
+</div>
+        <template x-if="small > 0">
+            <div class="item">
+                <span>Small: </span>
+                <button @click="small++">+</button>
+                <span x-text="small"></span>
+                <button @click="small--" x-show="small > 0">-</button>
+                <span>x R<span x-text="(small * 49.00).toFixed(2)"></span></span>
+            </div>
+        </template>
+
+        <template x-if="medium > 0">
+            <div class="item">
+                <span>Medium: </span>
+                <button @click="medium++">+</button>
+                <span x-text="medium"></span>
+                <button @click="medium--" x-show="medium > 0">-</button>
+                <span>x R<span x-text="(medium * 89.00).toFixed(2)"></span></span>
+            </div>
+               </template>
+
+        <template x-if="large > 0">
+            <div class="item">
+                <span>Large: </span>
+                <button @click="large++">+</button>
+                <span x-text="large"></span>
+                <button @click="large--" x-show="large > 0">-</button>
+                <span>x R<span x-text="(large * 129.00).toFixed(2)"></span></span>
+            </div>
+        </template>
+
+        <div>
+            <b>Grand Total: R</b><span x-text="(small * 49.00 + medium * 89.00 + large * 129.00).toFixed(2)"></span>
+        </div>
+
+        <button class="checkout-btn" @click="checkout = true">Checkout</button>
+        
+        <div x-show="checkout">
+            <!-- Additional checkout information or payment form can go here -->
+            <h2>Proceed to Payment</h2>
+            <!-- Add your payment form or continue checkout process here -->
+        </div>
+    </section>
+
+    <section class="pizzas">
+        <div class="pizza small_pizza">
+            <h2>Small Pizza</h2>
+            <img src="pizza.png" alt="100">
+            <h3>R49.00</h3>
+            <div>Small pizza with 3 maximum toppings with perfect seasoning and extra cheese.</div>
+            <button class="buy" @click="small++">Buy</button>
+        </div>
+
+        <div class="pizza medium_pizza">
+            <h2>Medium Pizza</h2>
+            <img src="pizza.png" alt="200">
+            <h3>R89.00</h3>
+            <div>Medium pizza with 3 maximum toppings with perfect seasoning and extra cheese.</div>
+            <button class="buy" @click="medium++">Buy</button>
+        </div>
+
+        <div class="pizza large_pizza">
+            <h2>Large Pizza</h2>
+            <img src="pizza.png" alt="300">
+            <h3>R129.00</h3>
+            <div>Large pizza with 3 maximum toppings with perfect seasoning and extra cheese.</div>
+            <button class="buy" @click="large++">Buy</button>
+        </div>
+    </section>
+
+    <div class="pizza contact_us">
+        <h2>Contact details</h2>
+        Contact us at: 011 761 7505 | info@perfectpizza.co.za
+    </div>
+</body>
+</html>
