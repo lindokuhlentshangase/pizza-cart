@@ -8,13 +8,13 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <style>
-    body {
+   body {
     background-color: chocolate;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .pizzas {
-    /* box-model */
+     box-model 
     border: 1px solid snow
     padding: 1em;
     margin: 1em;
@@ -33,6 +33,11 @@
 .small_pizza {
     background-color: chocolate; 
     flex: 1; 
+    border: 1px;
+    border-radius: 1cm;
+    padding: 1cm;
+    margin: 0.3cm;
+
 }
 
 .Shopping_cart {
@@ -46,16 +51,26 @@
 .medium_pizza {
     background-color: bisque;
     flex: 1;
+    border: 1px;
+    border-radius: 1cm;
+    padding: 1em;
+    margin: 0.3cm;
 }
     
 
 .large_pizza {
     background-color: powderblue;
     flex: 1;
+    border: 1px;
+    border-radius: 1cm;
+    padding: 1em;
+    margin: 0.3cm;
 }
 
 .contact_us {
     background-color: sandybrown;
+    border: 1px;
+    
 }
 
 .special {
@@ -85,61 +100,103 @@
         display: flex;
     }
 
-}
+} 
 </style>
+
 <body x-data="{ small: 0, medium: 0, large: 0, checkout: false }">
     <header>
         <h1>Perfect Pizza</h1>
         <h2>Pizza Orders</h2>
     </header>
 
-    <section class="shopping-cart" x-show="small > 0 || medium > 0 || large > 0">
-        <div class="Shopping_cart">
+    <div class="pizzaz"
+    x-data="{small:0, medium:0, large:0, Grandtotal:0, get total(){ return (this.small * 49.00 + this.medium * 89.00 + this.large * 129.00 ).toFixed(2)}, GrandTotal:0, checkout: false, paid:'', errorMessage: ''}">
+
+    <div class="pizza_saves">
+        <h1>Perfect Pizza</h1>
+        <h2>Orders</h2>
+    </div>
+
+    <div class="Shopping_cart">
         <div class="Shopping cart">
-        <h1>Shopping Cart</h1>
-</div>
-        <template x-if="small > 0">
-            <div class="item">
-                <span>Small: </span>
-                <button @click="small++">+</button>
-                <span x-text="small"></span>
-                <button @click="small--" x-show="small > 0">-</button>
-                <span>x R<span x-text="(small * 49.00).toFixed(2)"></span></span>
-            </div>
-        </template>
+            <h1>Shopping cart</h1>
 
-        <template x-if="medium > 0">
-            <div class="item">
-                <span>Medium: </span>
-                <button @click="medium++">+</button>
-                <span x-text="medium"></span>
-                <button @click="medium--" x-show="medium > 0">-</button>
-                <span>x R<span x-text="(medium * 89.00).toFixed(2)"></span></span>
-            </div>
-               </template>
+            <div class="pizzaz">
+                <div class="Shopping_cart" x-show="small != 0 || medium != 0 || large != 0">
 
-        <template x-if="large > 0">
-            <div class="item">
-                <span>Large: </span>
-                <button @click="large++">+</button>
-                <span x-text="large"></span>
-                <button @click="large--" x-show="large > 0">-</button>
-                <span>x R<span x-text="(large * 129.00).toFixed(2)"></span></span>
-            </div>
-        </template>
+                    <template x-if="small > 0">
+                        <div class="small-cart">
+                            Small:
+                            <template x-if="!checkout">
+                                <button class="Shopping_cart" @click="small++">+</button>
+                            </template><span x-text="small"></span><template x-if="!checkout"><button class="Shopping_cart" @click="small--">-</button></template>
+                            <span>Price: R<span x-text="(small * 49.00).toFixed(2)"></span></span>
+                        </div>
+                    </template>
 
-        <div>
-            <b>Grand Total: R</b><span x-text="(small * 49.00 + medium * 89.00 + large * 129.00).toFixed(2)"></span>
+                    <template x-if="medium > 0">
+                        <div class="medium-cart">
+                            Medium:
+                            <template x-if="!checkout">
+                                <button class="Shopping_cart" @click="medium++">+</button>
+                            </template><span x-text="medium"></span><template x-if="!checkout"><button class="Shopping_cart" @click="medium--">-</button></template>
+                            <span>Price: R<span x-text="(medium * 89.00).toFixed(2)"></span></span>
+                        </div>
+                    </template>
+
+                    <template x-if="large > 0">
+                        <div class="large-cart">
+                            Large:
+                            <template x-if="!checkout">
+                                <button class="Shopping_cart" @click="large++">+</button>
+                            </template><span x-text="large"></span><template x-if="!checkout"><button class="Shopping_cart" @click="large--">-</button></template>
+                            <span>Price: R<span x-text="(large * 129.00).toFixed(2)"></span></span>
+                        </div>
+                    </template>
+
+                    <span> <b>Grand total: R</b><span class="Shopping_cart" x-text="((small * 49.00) + (medium * 89.00) + (large * 129.00)).toFixed(2)"></span>
+                    </span>
+
+                    <template x-if="!checkout">
+                        <button class="Shopping_cart" @click="checkout=!checkout">Checkout</button>
+                    </template>
+                    <template x-if="checkout">
+                        <label>Amount received from customer: R<input 
+                            type="number" 
+                            min="0" 
+                            step="0.01"
+                                x-model="paid" /></label>
+                    </template>
+
+                    <template x-if="checkout && parseFloat(paid) >= total">
+                        <span>
+                            <div style="color: rgb(15, 15, 15)">
+                                <template x-if="parseFloat(paid) === parseFloat(total)">
+                                    <span>Enjoy your pizzas!</span>
+                                </template>
+                                <template x-if="parseFloat(paid) > parseFloat(total)">
+                                    <span><b>Enjoy your pizza, Here's your change: R</b><span x-text="(parseFloat(paid) - parseFloat(total)).toFixed(2)"></span></span>
+                                </template>
+                            </div>
+                            <button class="Shopping_cart" @click="small=0; medium=0; large=0; checkout=false; paid=''; errorMessage=''">
+                                Complete Order
+                            </button>
+                        </span>
+                    </template>
+
+                    <template x-if="checkout && parseFloat(paid) < parseFloat(total)">
+                        <span>
+                            
+                            <button class="Shopping_cart" @click="small=0; medium=0; large=0; checkout=false; paid=''; errorMessage=''">
+                                Exit-Cart
+                            </button>
+                        </span>
+                    </template>
+                                </div>
+
+            </div>
         </div>
-
-        <button class="checkout-btn" @click="checkout = true">Checkout</button>
-        
-        <div x-show="checkout">
-            <!-- Additional checkout information or payment form can go here -->
-            <h2>Proceed to Payment</h2>
-            <!-- Add your payment form or continue checkout process here -->
-        </div>
-    </section>
+    </div>
 
     <section class="pizzas">
         <div class="pizza small_pizza">
@@ -172,4 +229,4 @@
         Contact us at: 011 761 7505 | info@perfectpizza.co.za
     </div>
 </body>
-</html>
+</html> 
